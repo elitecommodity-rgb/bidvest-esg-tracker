@@ -1,4 +1,4 @@
-"""Report builders for Bidvest Food Waste ESG: PDF (polished/visual), DOCX and XLSX."""
+"""Report builders for Bidvest ESG Tracker: PDF (polished/visual), DOCX and XLSX."""
 import io
 
 import matplotlib
@@ -125,7 +125,7 @@ def _cover_and_footer(canvas_obj, doc, scope_label, unit_label, generated_at):
         canvas_obj.rect(0, doc.pagesize[1] - 8, doc.pagesize[0], 8, fill=1, stroke=0)
         canvas_obj.setFillColorRGB(1, 1, 1)
         canvas_obj.setFont("Helvetica-Bold", 30)
-        canvas_obj.drawString(24 * mm, doc.pagesize[1] - 90 * mm, "Bidvest Food Waste ESG")
+        canvas_obj.drawString(24 * mm, doc.pagesize[1] - 90 * mm, "Bidvest ESG Tracker")
         canvas_obj.setFont("Helvetica", 15)
         canvas_obj.drawString(24 * mm, doc.pagesize[1] - 102 * mm, f"{scope_label} report")
         canvas_obj.setFont("Helvetica", 11)
@@ -140,7 +140,7 @@ def _cover_and_footer(canvas_obj, doc, scope_label, unit_label, generated_at):
         canvas_obj.rect(0, doc.pagesize[1] - 14 * mm, doc.pagesize[0], 14 * mm, fill=1, stroke=0)
         canvas_obj.setFillColorRGB(1, 1, 1)
         canvas_obj.setFont("Helvetica-Bold", 10)
-        canvas_obj.drawString(16 * mm, doc.pagesize[1] - 9.5 * mm, "Bidvest Food Waste ESG")
+        canvas_obj.drawString(16 * mm, doc.pagesize[1] - 9.5 * mm, "Bidvest ESG Tracker")
         canvas_obj.setFont("Helvetica", 9)
         canvas_obj.drawRightString(doc.pagesize[0] - 16 * mm, doc.pagesize[1] - 9.5 * mm, scope_label)
         canvas_obj.setFillColor(GREY)
@@ -311,7 +311,7 @@ def build_docx_report(ctx):
     summary = ctx["summary"]
 
     doc = Document()
-    title = doc.add_heading("Bidvest Food Waste ESG Report", level=0)
+    title = doc.add_heading("Bidvest ESG Tracker Report", level=0)
     title.runs[0].font.color.rgb = RGBColor(0x14, 0x15, 0x49)
     p = doc.add_paragraph(f"{scope_label} report")
     p.runs[0].font.size = Pt(14)

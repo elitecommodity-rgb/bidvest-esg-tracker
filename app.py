@@ -11,12 +11,12 @@ from flask import Flask, g, jsonify, request, send_file, session, send_from_dire
 from werkzeug.security import generate_password_hash, check_password_hash
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.environ.get("DB_PATH", os.path.join(BASE_DIR, "data", "bidvest_food_waste_esg.db"))
+DB_PATH = os.environ.get("DB_PATH", os.path.join(BASE_DIR, "data", "bidvest_esg_tracker.db"))
 UPLOAD_DIR = os.environ.get("UPLOAD_DIR", os.path.join(BASE_DIR, "data", "uploads"))
 CHECKLIST_JSON = os.path.join(BASE_DIR, "checklist_items.json")
 
 BOOTSTRAP_ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME", "admin")
-BOOTSTRAP_ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "bidvest-fw-esg-admin")
+BOOTSTRAP_ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "bidvest-esg-tracker-admin")
 MAX_UPLOAD_MB = 20
 
 os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
@@ -29,7 +29,7 @@ app.config["MAX_CONTENT_LENGTH"] = MAX_UPLOAD_MB * 1024 * 1024
 STATUSES = ["Not started", "In progress", "Collected", "Verified", "N/A"]
 ENTRY_FREQUENCIES = ["Daily", "Weekly", "Monthly"]
 KITCHEN_CATEGORIES = ["School", "Hospital", "Corporate", "Retirement Village", "Learning Academy", "Other"]
-PILLARS = ["Waste & food waste", "Packaging & sourcing"]
+PILLARS = ["Waste & food waste", "Packaging & sourcing", "Energy & climate", "Water", "Health & safety", "Food safety & customer"]
 
 # ---------------------------------------------------------------- helpers
 
@@ -862,7 +862,7 @@ def generate_report(fmt):
     }
 
     safe_scope = scope.replace(" ", "").replace("&", "and")
-    fname_base = f"Bidvest_FoodWaste_ESG_Report_{safe_scope}_{datetime.now().strftime('%Y%m%d')}"
+    fname_base = f"Bidvest_ESG_Tracker_Report_{safe_scope}_{datetime.now().strftime('%Y%m%d')}"
     if fmt == "xlsx":
         buf = build_xlsx_report(ctx)
         return send_file(buf, as_attachment=True, download_name=f"{fname_base}.xlsx",

@@ -1,5 +1,165 @@
 [
   {
+    "id": "E01",
+    "pillar": "Environmental",
+    "category": "Energy & climate",
+    "data_point": "Grid electricity consumed, per site",
+    "unit": "kWh",
+    "frequency": "Monthly",
+    "typical_source": "Municipal / Eskom bills, sub-meter readings",
+    "framework_ref": "GRI 302-1; IFRS S2"
+  },
+  {
+    "id": "E02",
+    "pillar": "Environmental",
+    "category": "Energy & climate",
+    "data_point": "Electricity split by who pays / meters it (Bidvest vs client vs shared)",
+    "unit": "kWh, % of total",
+    "frequency": "Quarterly",
+    "typical_source": "Site register, client utility recoveries",
+    "framework_ref": "GRI 302-1 (boundary note)"
+  },
+  {
+    "id": "E03",
+    "pillar": "Environmental",
+    "category": "Energy & climate",
+    "data_point": "LPG consumed in kitchens",
+    "unit": "kg",
+    "frequency": "Monthly",
+    "typical_source": "Gas supplier delivery notes and invoices",
+    "framework_ref": "GRI 302-1; GHG Scope 1"
+  },
+  {
+    "id": "E04",
+    "pillar": "Environmental",
+    "category": "Energy & climate",
+    "data_point": "Diesel used in backup generators (load-shedding cover)",
+    "unit": "litres, run-hours",
+    "frequency": "Monthly",
+    "typical_source": "Fuel purchase records, generator logbooks",
+    "framework_ref": "GRI 302-1; GHG Scope 1"
+  },
+  {
+    "id": "E05",
+    "pillar": "Environmental",
+    "category": "Energy & climate",
+    "data_point": "Fleet fuel used by delivery and staff vehicles, by fuel type",
+    "unit": "litres",
+    "frequency": "Monthly",
+    "typical_source": "Fuel card reports, vehicle logbooks",
+    "framework_ref": "GRI 302-1; GHG Scope 1"
+  },
+  {
+    "id": "E06",
+    "pillar": "Environmental",
+    "category": "Energy & climate",
+    "data_point": "Refrigerant top-ups / leakage from cold rooms and fridges, by gas type",
+    "unit": "kg",
+    "frequency": "Quarterly",
+    "typical_source": "Refrigeration contractor service reports",
+    "framework_ref": "GRI 305-1; GHG Scope 1"
+  },
+  {
+    "id": "E07",
+    "pillar": "Environmental",
+    "category": "Energy & climate",
+    "data_point": "Renewable energy generated or purchased (e.g. solar PV)",
+    "unit": "kWh, % of total",
+    "frequency": "Monthly",
+    "typical_source": "Inverter data, PPA statements",
+    "framework_ref": "GRI 302-1; IFRS S2"
+  },
+  {
+    "id": "E08",
+    "pillar": "Environmental",
+    "category": "Energy & climate",
+    "data_point": "Energy-efficiency projects completed (LED, efficient equipment, sub-metering)",
+    "unit": "number, kWh saved",
+    "frequency": "Annual",
+    "typical_source": "Project register, before/after readings",
+    "framework_ref": "GRI 302-4"
+  },
+  {
+    "id": "E09",
+    "pillar": "Environmental",
+    "category": "Energy & climate",
+    "data_point": "Scope 1 emissions (LPG, diesel, fleet, refrigerants)",
+    "unit": "tCO2e",
+    "frequency": "Annual",
+    "typical_source": "Calculated from activity data above",
+    "framework_ref": "GRI 305-1; IFRS S2"
+  },
+  {
+    "id": "E10",
+    "pillar": "Environmental",
+    "category": "Energy & climate",
+    "data_point": "Scope 2 emissions (purchased electricity, location-based)",
+    "unit": "tCO2e",
+    "frequency": "Annual",
+    "typical_source": "Calculated from kWh and current grid emission factor",
+    "framework_ref": "GRI 305-2; IFRS S2"
+  },
+  {
+    "id": "E11",
+    "pillar": "Environmental",
+    "category": "Energy & climate",
+    "data_point": "Scope 3 - purchased food and beverage by category (typically the largest source)",
+    "unit": "kg or R spend by category",
+    "frequency": "Annual",
+    "typical_source": "Procurement / ERP purchase data",
+    "framework_ref": "GRI 305-3; IFRS S2"
+  },
+  {
+    "id": "E12",
+    "pillar": "Environmental",
+    "category": "Energy & climate",
+    "data_point": "Scope 3 - other categories (waste, upstream transport, business travel, commuting)",
+    "unit": "tCO2e",
+    "frequency": "Annual",
+    "typical_source": "Waste contractor, courier and travel data",
+    "framework_ref": "GRI 305-3"
+  },
+  {
+    "id": "E13",
+    "pillar": "Environmental",
+    "category": "Water",
+    "data_point": "Municipal water withdrawn, per site",
+    "unit": "kL",
+    "frequency": "Monthly",
+    "typical_source": "Municipal bills, water meter readings",
+    "framework_ref": "GRI 303-3"
+  },
+  {
+    "id": "E14",
+    "pillar": "Environmental",
+    "category": "Water",
+    "data_point": "Sites with water metering (share of total sites)",
+    "unit": "% of sites",
+    "frequency": "Annual",
+    "typical_source": "Site register",
+    "framework_ref": "GRI 303-1"
+  },
+  {
+    "id": "E15",
+    "pillar": "Environmental",
+    "category": "Water",
+    "data_point": "Sites in water-stressed areas or subject to restrictions / outages",
+    "unit": "number, days affected",
+    "frequency": "Quarterly",
+    "typical_source": "Site register, municipal notices",
+    "framework_ref": "GRI 303-1; IFRS S2"
+  },
+  {
+    "id": "E16",
+    "pillar": "Environmental",
+    "category": "Water",
+    "data_point": "Grease-trap servicing and effluent compliance (by-law notices or fines)",
+    "unit": "number, R",
+    "frequency": "Quarterly",
+    "typical_source": "Service certificates, municipal notices",
+    "framework_ref": "GRI 303-2; GRI 2-27"
+  },
+  {
     "id": "E17",
     "pillar": "Environmental",
     "category": "Waste & food waste",
@@ -128,5 +288,115 @@
     "frequency": "Quarterly",
     "typical_source": "Menu and POS / meal-count data",
     "framework_ref": "Internal KPI (Scope 3 lever)"
+  },
+  {
+    "id": "S11",
+    "pillar": "Social",
+    "category": "Health & safety",
+    "data_point": "Lost-time injuries and LTIFR (cuts, burns, slips are typical kitchen causes)",
+    "unit": "number, rate per 200 000 hrs",
+    "frequency": "Monthly",
+    "typical_source": "Incident register, hours worked",
+    "framework_ref": "OHS Act; GRI 403-9"
+  },
+  {
+    "id": "S12",
+    "pillar": "Social",
+    "category": "Health & safety",
+    "data_point": "Work-related fatalities and high-consequence injuries",
+    "unit": "number",
+    "frequency": "Monthly",
+    "typical_source": "Incident register",
+    "framework_ref": "GRI 403-9"
+  },
+  {
+    "id": "S13",
+    "pillar": "Social",
+    "category": "Health & safety",
+    "data_point": "Occupational disease cases and COIDA claims",
+    "unit": "number",
+    "frequency": "Quarterly",
+    "typical_source": "COIDA records, HR",
+    "framework_ref": "COIDA; GRI 403-10"
+  },
+  {
+    "id": "S14",
+    "pillar": "Social",
+    "category": "Health & safety",
+    "data_point": "Site OHS compliance: LPG installation certificates, fire equipment servicing, first aiders, H&S reps and committee meetings",
+    "unit": "% of sites compliant",
+    "frequency": "Quarterly",
+    "typical_source": "Site H&S audits",
+    "framework_ref": "OHS Act; GRI 403-1"
+  },
+  {
+    "id": "S15",
+    "pillar": "Social",
+    "category": "Health & safety",
+    "data_point": "Food handlers with valid medical fitness certificates",
+    "unit": "% of handlers",
+    "frequency": "Annual",
+    "typical_source": "HR / site records",
+    "framework_ref": "R638; GRI 403-3"
+  },
+  {
+    "id": "S16",
+    "pillar": "Social",
+    "category": "Food safety & customer",
+    "data_point": "Sites with valid Certificates of Acceptability (COA) from the municipality",
+    "unit": "% of sites",
+    "frequency": "Quarterly",
+    "typical_source": "Site register, certificates",
+    "framework_ref": "R638 (food premises hygiene regulations)"
+  },
+  {
+    "id": "S17",
+    "pillar": "Social",
+    "category": "Food safety & customer",
+    "data_point": "Food safety audit results and certifications (HACCP, ISO 22000 / FSSC 22000) by site",
+    "unit": "score, % certified",
+    "frequency": "Quarterly",
+    "typical_source": "Internal and third-party audit reports",
+    "framework_ref": "GRI 416-1"
+  },
+  {
+    "id": "S18",
+    "pillar": "Social",
+    "category": "Food safety & customer",
+    "data_point": "Food safety incidents: suspected foodborne illness, recalls, customer complaints",
+    "unit": "number",
+    "frequency": "Monthly",
+    "typical_source": "Incident and complaint register",
+    "framework_ref": "GRI 416-2"
+  },
+  {
+    "id": "S19",
+    "pillar": "Social",
+    "category": "Food safety & customer",
+    "data_point": "Allergen labelling and management: audits passed and incidents",
+    "unit": "% compliant, number",
+    "frequency": "Quarterly",
+    "typical_source": "Menu labelling audits, incident register",
+    "framework_ref": "R146 (labelling regulations); GRI 417-1"
+  },
+  {
+    "id": "S20",
+    "pillar": "Social",
+    "category": "Food safety & customer",
+    "data_point": "Menus meeting nutritional criteria (school, hospital and retirement contracts)",
+    "unit": "% of menus",
+    "frequency": "Annual",
+    "typical_source": "Dietitian sign-off, menu analysis",
+    "framework_ref": "GRI FP-series sector disclosures"
+  },
+  {
+    "id": "S21",
+    "pillar": "Social",
+    "category": "Food safety & customer",
+    "data_point": "Client satisfaction score",
+    "unit": "score / NPS",
+    "frequency": "Quarterly",
+    "typical_source": "Client surveys",
+    "framework_ref": "Internal KPI"
   }
 ]

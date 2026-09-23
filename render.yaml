@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: bidvest-food-waste-esg
+    name: bidvest-esg-tracker
     runtime: docker
     plan: free
     dockerfilePath: ./Dockerfile
@@ -15,6 +15,6 @@ services:
       - key: ADMIN_PASSWORD
         sync: false
     disk:
-      name: bidvest-food-waste-esg-data
+      name: bidvest-esg-tracker-data
       mountPath: /app/data
       sizeGB: 1
