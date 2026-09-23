@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bidvest ESG Tracker</title>
+<style>
+  :root{
+    --navy:#141549; --navy2:#4a99d1; --gold:#c9896d; --green:#1f8a4c;
+    --amber:#c98a12; --red:#c0392b; --grey:#6b7280; --bg:#f4f6f9; --card:#ffffff;
+    --border:#e2e6ec;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:#1a1f2b;}
+  header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+  header .brand{display:flex;align-items:center;gap:12px;}
+  header .brand .dot{width:12px;height:12px;border-radius:50%;background:var(--gold);}
+  header h1{font-size:19px;margin:0;font-weight:600;letter-spacing:.2px;}
+  header .sub{font-size:12px;opacity:.8;}
+  header .who{font-size:13px;display:flex;align-items:center;gap:12px;}
+  header button{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);color:#fff;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:12px;}
+  header button:hover{background:rgba(255,255,255,.22);}
+
+  #login-screen{max-width:380px;margin:80px auto;background:var(--card);padding:32px;border-radius:12px;box-shadow:0 8px 30px rgba(10,20,40,.08);}
+  #login-screen h2{margin-top:0;color:var(--navy);}
+  #login-screen input{width:100%;padding:10px 12px;margin-bottom:12px;border:1px solid var(--border);border-radius:6px;font-size:14px;}
+  #login-screen button{width:100%;padding:10px;background:var(--navy);color:#fff;border:none;border-radius:6px;font-size:14px;cursor:pointer;}
+  #login-screen button:hover{background:#1c1f61;}
+  #login-error{color:var(--red);font-size:13px;margin-bottom:10px;min-height:16px;}
+
+  main{max-width:1180px;margin:0 auto;padding:20px 24px 60px;}
+  .navtabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+  .navtab{padding:10px 18px;cursor:pointer;font-size:14px;font-weight:600;color:var(--grey);border-bottom:3px solid transparent;}
+  .navtab.active{color:var(--navy);border-bottom-color:var(--navy2);}
+  .view{display:none;}
+  .view.active{display:block;}
+
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin-bottom:16px;max-width:100%;overflow-x:auto;}
+  .card h3{margin-top:0;color:var(--navy);font-size:15px;}
+  .field-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:12px;}
+  .field-row label{font-size:11.5px;color:var(--grey);display:block;margin-bottom:4px;font-weight:600;}
+  .field-row select, .field-row input, .field-row textarea{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:13.5px;font-family:inherit;}
+  textarea{resize:vertical;min-height:44px;}
+  .btn{padding:9px 16px;border-radius:6px;border:1px solid var(--border);background:var(--card);cursor:pointer;font-size:13px;color:var(--navy);font-weight:600;}
+  .btn:hover{border-color:var(--navy);}
+  .btn.primary{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .btn.primary:hover{background:#1c1f61;}
+  .btn.small{padding:5px 10px;font-size:12px;}
+  .btn.danger{color:var(--red);}
+  .confirm-banner{background:#e2f3e8;border:1px solid #bfe4cd;color:#146c38;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13.5px;display:none;}
+  .confirm-banner.show{display:block;}
+  .error-banner{background:#fde8e6;border:1px solid #f4bdb8;color:var(--red);padding:10px 14px;border-radius:8px;margin-bottom:14px;font-size:13px;display:none;}
+  .error-banner.show{display:block;}
+  .hint{font-size:11.5px;color:var(--grey);margin-top:-6px;margin-bottom:10px;}
+
+  .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:18px;}
+  .stat-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+  .stat-card .label{font-size:11px;color:var(--grey);text-transform:uppercase;letter-spacing:.4px;}
+  .stat-card .value{font-size:24px;font-weight:700;color:var(--navy);margin-top:4px;}
+  .bar{height:6px;border-radius:3px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar > div{height:100%;background:var(--green);}
+
+  table.datatable{width:100%;border-collapse:collapse;font-size:13px;}
+  table.datatable th, table.datatable td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);}
+  table.datatable th{color:var(--grey);font-size:11px;text-transform:uppercase;letter-spacing:.3px;}
+
+  .tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+  .tab{padding:8px 15px;border-radius:20px;background:var(--card);border:1px solid var(--border);cursor:pointer;font-size:13px;font-weight:600;color:var(--navy);}
+  .tab.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .tab .count{opacity:.7;font-size:11px;margin-left:4px;}
+
+  .status-pill{font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;white-space:nowrap;display:inline-block;}
+  .status-Not-started{background:#eceff3;color:#5b6472;}
+  .status-In-progress{background:#fdf1d8;color:var(--amber);}
+  .status-Collected{background:#e2f3e8;color:var(--green);}
+  .status-Verified{background:#dcefe0;color:#146c38;border:1px solid #146c38;}
+  .status-N-A{background:#f0f0f0;color:#999;}
+
+  .subtabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+  .subtab{padding:7px 14px;border-radius:6px;background:#eef1f6;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--navy);}
+  .subtab.active{background:var(--navy);color:#fff;}
+
+  .alert-row{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-radius:6px;background:#fdf1d8;margin-bottom:6px;font-size:12.5px;}
+  .alert-row .meta{color:#8a6109;font-size:11px;}
+
+  select[multiple]{min-height:80px;}
+  .flag-actions{display:flex;gap:6px;margin-top:6px;}
+  .risk-low{color:var(--green);font-weight:700;}
+  .risk-mid{color:var(--amber);font-weight:700;}
+  .risk-high{color:var(--red);font-weight:700;}
+
+  .hidden{display:none !important;}
+  @media (max-width:640px){
+    header{padding:14px;}
+    main{padding:14px;}
+    #login-screen{margin:40px 14px;padding:24px 20px;max-width:none;}
+    .navtab{padding:10px 12px;font-size:13px;}
+    .subtab{padding:7px 10px;font-size:12px;}
+    header h1{font-size:17px;}
+    .card{padding:14px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <h2>Bidvest ESG Tracker</h2>
+  <p style="font-size:13px;color:#6b7280;margin-top:-6px;">Energy, water, waste, packaging, health &amp; safety and food safety checklist</p>
+  <div id="login-error"></div>
+  <input id="login-username" type="text" placeholder="Username" autocomplete="username">
+  <input id="login-password" type="password" placeholder="Password" autocomplete="current-password">
+  <button onclick="doLogin()">Log in</button>
+</div>
+
+<div id="app" class="hidden">
+  <header>
+    <div class="brand">
+      <div class="dot"></div>
+      <div>
+        <h1>Bidvest ESG Tracker</h1>
+        <div class="sub" id="unit-sub">Energy, water, waste, packaging, health &amp; safety and food safety checklist</div>
+      </div>
+    </div>
+    <div class="who">
+      <span id="who-name"></span>
+      <button onclick="doLogout()">Log out</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="navtabs" id="navtabs"></div>
+
+    <!-- ===================== ADD ENTRY ===================== -->
+    <div class="view" id="view-entry">
+      <div class="confirm-banner" id="entry-confirm"></div>
+      <div class="error-banner" id="entry-error"></div>
+      <div class="card">
+        <h3>Log a data entry</h3>
+        <p class="hint">Pick the unit and the exact data point this entry belongs to. Repeated daily/weekly/monthly entries for the same data point are automatically summed or averaged into the current reporting period.</p>
+        <div class="field-row">
+          <div>
+            <label>Unit</label>
+            <select id="entry-unit"></select>
+          </div>
+          <div>
+            <label>Data point</label>
+            <select id="entry-item"></select>
+          </div>
+          <div>
+            <label>Entry frequency</label>
+            <select id="entry-frequency">
+              <option>Daily</option><option selected>Weekly</option><option>Monthly</option>
+            </select>
+          </div>
+          <div>
+            <label>Date</label>
+            <input id="entry-date" type="date">
+          </div>
+        </div>
+        <div class="field-row">
+          <div>
+            <label>Value</label>
+            <input id="entry-value" type="text" placeholder="e.g. 1 240 kg, 45%, Yes">
+          </div>
+          <div style="grid-column:span 2;">
+            <label>Notes</label>
+            <textarea id="entry-notes" placeholder="Context, evidence location, calculation method..."></textarea>
+          </div>
+        </div>
+        <div class="field-row">
+          <div>
+            <label>Evidence (optional)</label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+              <button type="button" class="btn" onclick="document.getElementById('entry-file-camera').click()">📷 Take photo</button>
+              <input id="entry-file-camera" type="file" accept="image/*" capture="environment" class="hidden" onchange="onEvidencePicked(this)">
+              <button type="button" class="btn" onclick="document.getElementById('entry-file').click()">Choose file</button>
+              <input id="entry-file" type="file" accept="image/*,application/pdf,.heic,.doc,.docx,.xls,.xlsx,.csv,.txt,.eml,.msg" class="hidden" onchange="onEvidencePicked(this)">
+              <span id="entry-file-name" style="font-size:12.5px;color:var(--grey);">No file chosen</span>
+            </div>
+            <div class="hint">Take a photo of a bill, certificate or weighbridge slip right now, or attach an existing file.</div>
+          </div>
+        </div>
+        <button class="btn primary" onclick="submitEntry()">Log entry</button>
+      </div>
+
+      <div class="card">
+        <h3>Recent entries</h3>
+        <table class="datatable" id="recent-entries-table"></table>
+      </div>
+    </div>
+
+    <!-- ===================== DASHBOARD ===================== -->
+    <div class="view" id="view-dashboard">
+      <div class="summary-grid" id="summary-grid"></div>
+      <div class="field-row" style="max-width:320px;">
+        <div>
+          <label>Viewing unit</label>
+          <select id="dash-unit-filter" onchange="loadStatus()"></select>
+        </div>
+      </div>
+      <div class="tabs" id="pillar-tabs"></div>
+      <input type="search" id="search-box" placeholder="Search data points..." oninput="renderStatus()" style="padding:8px 12px;border:1px solid var(--border);border-radius:6px;width:280px;margin-bottom:14px;">
+      <div id="status-container"></div>
+    </div>
+
+    <!-- ===================== BIDVEST ADMIN ===================== -->
+    <div class="view" id="view-admin">
+      <div class="subtabs" id="admin-subtabs">
+        <div class="subtab active" data-tab="units" onclick="setAdminTab('units')">Units &amp; Regions</div>
+        <div class="subtab" data-tab="users" onclick="setAdminTab('users')">Users</div>
+        <div class="subtab" data-tab="alerts" onclick="setAdminTab('alerts')">Alerts</div>
+        <div class="subtab" data-tab="reports" onclick="setAdminTab('reports')">Reports</div>
+      </div>
+
+      <div id="admin-units" class="admin-pane">
+        <div class="card">
+          <h3>Add a unit</h3>
+          <div class="field-row">
+            <div><label>Unit name</label><input id="new-unit-name" placeholder="e.g. Centurion Corporate Kitchen"></div>
+            <div><label>Region</label><input id="new-unit-region" placeholder="e.g. Gauteng" list="region-list"><datalist id="region-list"></datalist></div>
+            <div><label>Kitchen category</label><select id="new-unit-category"></select></div>
+          </div>
+          <button class="btn primary" onclick="addUnit()">Add unit</button>
+          <span id="unit-msg" style="margin-left:10px;font-size:12.5px;"></span>
+        </div>
+        <div class="card">
+          <h3>Units by region</h3>
+          <div id="units-by-region"></div>
+        </div>
+      </div>
+
+      <div id="admin-users" class="admin-pane hidden">
+        <div class="card">
+          <h3>Add a user</h3>
+          <div class="field-row">
+            <div><label>Name</label><input id="new-user-name"></div>
+            <div><label>Username</label><input id="new-user-username"></div>
+            <div><label>Password</label><input id="new-user-password" type="text" placeholder="6+ characters"></div>
+            <div><label>Role</label><select id="new-user-role" onchange="toggleUserUnitField()"><option value="site">Site (single unit)</option><option value="admin">Bidvest Admin</option></select></div>
+            <div id="new-user-unit-wrap"><label>Assigned unit</label><select id="new-user-unit"></select></div>
+          </div>
+          <button class="btn primary" onclick="addUser()">Add user</button>
+          <span id="user-msg" style="margin-left:10px;font-size:12.5px;"></span>
+        </div>
+        <div class="card">
+          <h3>All users</h3>
+          <table class="datatable" id="users-table"></table>
+        </div>
+      </div>
+
+      <div id="admin-alerts" class="admin-pane hidden">
+        <div class="card">
+          <h3>Units not reporting on time</h3>
+          <p class="hint">A data point is flagged once 60% of its reporting period has elapsed with no entry logged for a unit.</p>
+          <div id="alerts-list"></div>
+        </div>
+      </div>
+
+      <div id="admin-reports" class="admin-pane hidden">
+        <div class="card">
+          <h3>Generate a report</h3>
+          <div class="field-row">
+            <div>
+              <label>Scope</label>
+              <select id="report-scope">
+                <option value="all">Complete (all 40 data points)</option>
+                <option value="Energy & climate">Energy & climate only</option>
+                <option value="Water">Water only</option>
+                <option value="Waste & food waste">Waste & food waste only</option>
+                <option value="Packaging & sourcing">Packaging & sourcing only</option>
+                <option value="Health & safety">Health & safety only</option>
+                <option value="Food safety & customer">Food safety & customer only</option>
+              </select>
+            </div>
+            <div>
+              <label>Unit</label>
+              <select id="report-unit"><option value="">All units</option></select>
+            </div>
+          </div>
+          <button class="btn primary" onclick="downloadReport('pdf')">Download PDF</button>
+          <button class="btn" onclick="downloadReport('docx')">Download Word</button>
+          <button class="btn" onclick="downloadReport('xlsx')">Download Excel</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+let STATE = { role: null, name: null, unit: null, items: [], units: [], statusItems: [], pillar: 'All', meta: null };
+
+async function api(path, opts) {
+  opts = opts || {};
+  opts.headers = opts.headers || {};
+  if (opts.body && !(opts.body instanceof FormData)) opts.headers['Content-Type'] = 'application/json';
+  const res = await fetch(path, opts);
+  if (res.status === 401) { showLogin(); throw new Error('unauth'); }
+  if (!res.ok) { const t = await res.json().catch(()=>({error:res.statusText})); throw new Error(t.error||res.statusText); }
+  return res.headers.get('content-type')?.includes('application/json') ? res.json() : res;
+}
+
+function showLogin(){ document.getElementById('login-screen').classList.remove('hidden'); document.getElementById('app').classList.add('hidden'); }
+function showApp(){ document.getElementById('login-screen').classList.add('hidden'); document.getElementById('app').classList.remove('hidden'); }
+
+async function doLogin(){
+  const username = document.getElementById('login-username').value.trim();
+  const password = document.getElementById('login-password').value;
+  const errBox = document.getElementById('login-error');
+  errBox.textContent = '';
+  try {
+    const res = await fetch('/api/login', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username, password})});
+    const data = await res.json();
+    if (!res.ok) { errBox.textContent = data.error || 'Login failed'; return; }
+    STATE.role = data.role; STATE.name = data.name; STATE.unit = data.unit;
+    await boot();
+  } catch(e){ errBox.textContent = 'Could not reach server.'; }
+}
+
+async function doLogout(){ await api('/api/logout', {method:'POST'}); location.reload(); }
+
+function setNav(view){
+  document.querySelectorAll('.navtab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + view));
+  if (view === 'dashboard') { loadSummary(); loadStatus(); }
+  if (view === 'admin') { loadAdminData(); }
+  if (view === 'entry') { loadRecentEntries(); }
+}
+
+function renderNav(){
+  const tabs = [{id:'entry', label:'Log entry'}, {id:'dashboard', label:'Dashboard'}];
+  if (STATE.role === 'admin') tabs.push({id:'admin', label:'Bidvest Admin'});
+  document.getElementById('navtabs').innerHTML = tabs.map(t =>
+    `<div class="navtab" data-view="${t.id}" onclick="setNav('${t.id}')">${t.label}</div>`).join('');
+}
+
+async function boot(){
+  showApp();
+  const roleLabel = STATE.role === 'admin' ? 'Bidvest Admin' : 'Site user';
+  document.getElementById('who-name').textContent = `${STATE.name} · ${roleLabel}`;
+  document.getElementById('unit-sub').textContent = STATE.unit ? `${STATE.unit.name} — ${STATE.unit.category}` : 'Energy, water, waste, packaging, health & safety and food safety checklist';
+  renderNav();
+  STATE.meta = await api('/api/meta');
+  await Promise.all([loadChecklist(), loadUnits()]);
+  populateEntryForm();
+  document.getElementById('entry-date').value = new Date().toISOString().slice(0,10);
+  setNav('entry');
+}
+
+async function loadChecklist(){ STATE.items = await api('/api/checklist'); }
+async function loadUnits(){ STATE.units = await api('/api/units'); }
+
+function populateEntryForm(){
+  const unitSel = document.getElementById('entry-unit');
+  unitSel.innerHTML = STATE.units.map(u => `<option value="${u.id}">${u.name} (${u.category}, ${u.region_name})</option>`).join('');
+  if (STATE.unit) unitSel.value = STATE.unit.id;
+
+  const itemSel = document.getElementById('entry-item');
+  const byPillar = {};
+  STATE.items.forEach(i => { (byPillar[i.category] = byPillar[i.category] || []).push(i); });
+  itemSel.innerHTML = Object.entries(byPillar).map(([grp, items]) =>
+    `<optgroup label="${grp}">${items.map(i => `<option value="${i.id}">${i.id} — ${i.data_point}</option>`).join('')}</optgroup>`
+  ).join('');
+}
+
+let selectedEvidenceInput = null;
+function onEvidencePicked(input){
+  if (!input.files.length) return;
+  selectedEvidenceInput = input;
+  const other = input.id === 'entry-file' ? document.getElementById('entry-file-camera') : document.getElementById('entry-file');
+  other.value = '';
+  document.getElementById('entry-file-name').textContent = input.files[0].name;
+}
+
+async function submitEntry(){
+  const confirmBox = document.getElementById('entry-confirm');
+  const errBox = document.getElementById('entry-error');
+  confirmBox.classList.remove('show'); errBox.classList.remove('show');
+  const fd = new FormData();
+  fd.append('unit_id', document.getElementById('entry-unit').value);
+  fd.append('item_id', document.getElementById('entry-item').value);
+  fd.append('frequency', document.getElementById('entry-frequency').value);
+  fd.append('entry_date', document.getElementById('entry-date').value);
+  fd.append('value_text', document.getElementById('entry-value').value);
+  fd.append('notes', document.getElementById('entry-notes').value);
+  if (selectedEvidenceInput && selectedEvidenceInput.files.length) fd.append('file', selectedEvidenceInput.files[0]);
+  try {
+    const res = await api('/api/entry', {method:'POST', body: fd});
+    confirmBox.textContent = res.confirmation + (res.evidence_saved ? ` Evidence "${res.evidence_saved}" attached.` : '');
+    confirmBox.classList.add('show');
+    document.getElementById('entry-value').value = '';
+    document.getElementById('entry-notes').value = '';
+    document.getElementById('entry-file').value = '';
+    document.getElementById('entry-file-camera').value = '';
+    document.getElementById('entry-file-name').textContent = 'No file chosen';
+    selectedEvidenceInput = null;
+    loadRecentEntries();
+  } catch(e){
+    errBox.textContent = 'Could not save: ' + e.message;
+    errBox.classList.add('show');
+  }
+}
+
+async function loadRecentEntries(){
+  const rows = await api('/api/entries');
+  const table = document.getElementById('recent-entries-table');
+  if (!rows.length) { table.innerHTML = '<tr><td style="color:#9aa2b1;padding:8px;">No entries logged yet.</td></tr>'; return; }
+  table.innerHTML = '<tr><th>Date</th><th>Item</th><th>Unit</th><th>Value</th><th>By</th></tr>' +
+    rows.slice(0, 25).map(r => `<tr><td>${r.entry_date}</td><td>${r.item_id}</td><td>${r.unit_name}</td><td>${r.value_text||''}</td><td>${r.created_by_name||''}</td></tr>`).join('');
+}
+
+// ---------------- Dashboard ----------------
+
+async function loadSummary(){
+  const s = await api('/api/summary');
+  const grid = document.getElementById('summary-grid');
+  const cards = [
+    {label:'Overall complete', value: s.total.pct_complete + '%', bar: s.total.pct_complete},
+    {label:'Data points', value: s.total_items},
+    {label:'Units', value: s.total_units},
+    {label:'Collected', value: s.total.Collected},
+    {label:'Verified', value: s.total.Verified},
+  ];
+  grid.innerHTML = cards.map(c => `
+    <div class="stat-card"><div class="label">${c.label}</div><div class="value">${c.value}</div>
+    ${c.bar!==undefined ? `<div class="bar"><div style="width:${c.bar}%"></div></div>` : ''}</div>`).join('');
+}
+
+async function loadStatus(){
+  const unitFilterSel = document.getElementById('dash-unit-filter');
+  if (!unitFilterSel.options.length) {
+    unitFilterSel.innerHTML = '<option value="">All units (worst-case status)</option>' +
+      STATE.units.map(u => `<option value="${u.id}">${u.name} (${u.category})</option>`).join('');
+  }
+  const unitId = unitFilterSel.value;
+  const url = '/api/status' + (unitId ? `?unit_id=${unitId}` : '');
+  STATE.statusItems = await api(url);
+  renderPillarTabs();
+  renderStatus();
+}
+
+function renderPillarTabs(){
+  const pillars = ['All', ...new Set(STATE.items.map(i=>i.category))];
+  document.getElementById('pillar-tabs').innerHTML = pillars.map(p => {
+    const count = p==='All' ? STATE.statusItems.length : STATE.statusItems.filter(i=>i.category===p).length;
+    return `<div class="tab ${p===STATE.pillar?'active':''}" onclick="setPillar('${p}')">${p} <span class="count">${count}</span></div>`;
+  }).join('');
+}
+function setPillar(p){ STATE.pillar = p; renderPillarTabs(); renderStatus(); }
+function statusClass(s){ return 'status-' + (s||'Not started').replace(/[^A-Za-z]/g,'-'); }
+
+function renderStatus(){
+  const q = document.getElementById('search-box').value.toLowerCase();
+  let items = STATE.statusItems;
+  if (STATE.pillar !== 'All') items = items.filter(i => i.category === STATE.pillar);
+  if (q) items = items.filter(i => (i.data_point+' '+i.category+' '+i.id).toLowerCase().includes(q));
+  const unitId = document.getElementById('dash-unit-filter').value;
+
+  const byCategory = {};
+  items.forEach(i => { (byCategory[i.category] = byCategory[i.category]||[]).push(i); });
+
+  const container = document.getElementById('status-container');
+  if (!items.length) { container.innerHTML = '<p style="color:#6b7280;">No matching data points.</p>'; return; }
+
+  container.innerHTML = Object.entries(byCategory).map(([cat, list]) => `
+    <div class="card">
+      <h3>${cat}</h3>
+      <table class="datatable">
+        <tr><th>ID</th><th>Data point</th><th>Status</th><th>Value</th><th>Evidence</th>${STATE.role==='admin' && unitId ? '<th>Actions</th>' : ''}</tr>
+        ${list.map(i => rowHtml(i, unitId)).join('')}
+      </table>
+    </div>`).join('');
+}
+
+function rowHtml(item, unitId){
+  const s = item.status_summary;
+  const actions = (STATE.role === 'admin' && unitId) ? `
+    <td class="flag-actions">
+      <button class="btn small" onclick="setFlag('${item.id}', ${unitId}, 'verify')">Verify</button>
+      <button class="btn small" onclick="setFlag('${item.id}', ${unitId}, 'mark_na')">N/A</button>
+    </td>` : '';
+  return `<tr>
+    <td>${item.id}</td>
+    <td>${item.data_point}<div style="font-size:11px;color:#9aa2b1;">${item.unit||''} · ${item.frequency||''}</div></td>
+    <td><span class="status-pill ${statusClass(s.status)}">${s.status}</span></td>
+    <td>${s.rollup_value ?? '–'}</td>
+    <td>${item.evidence_count}</td>
+    ${actions}
+  </tr>`;
+}
+
+async function setFlag(itemId, unitId, action){
+  try { await api('/api/flags', {method:'POST', body: JSON.stringify({item_id: itemId, unit_id: unitId, action})}); loadStatus(); loadSummary(); }
+  catch(e){ alert('Could not update: ' + e.message); }
+}
+
+// ---------------- Bidvest Admin ----------------
+
+function setAdminTab(tab){
+  document.querySelectorAll('#admin-subtabs .subtab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.querySelectorAll('.admin-pane').forEach(p => p.classList.toggle('hidden', p.id !== 'admin-' + tab));
+  if (tab === 'alerts') loadAlerts();
+  if (tab === 'reports') loadReportUnits();
+}
+
+async function loadAdminData(){
+  document.getElementById('new-unit-category').innerHTML = STATE.meta.kitchen_categories.map(c => `<option>${c}</option>`).join('');
+  await loadUnitsAdmin();
+  await loadUsersAdmin();
+}
+
+async function loadUnitsAdmin(){
+  STATE.units = await api('/api/units');
+  const regions = [...new Set(STATE.units.map(u => u.region_name))];
+  document.getElementById('region-list').innerHTML = regions.map(r => `<option value="${r}">`).join('');
+  const byRegion = {};
+  STATE.units.forEach(u => { (byRegion[u.region_name] = byRegion[u.region_name] || []).push(u); });
+  const container = document.getElementById('units-by-region');
+  if (!STATE.units.length) { container.innerHTML = '<p style="color:#9aa2b1;">No units yet — add the first one above.</p>'; return; }
+  container.innerHTML = Object.entries(byRegion).map(([region, units]) => `
+    <h4 style="color:var(--navy);margin-bottom:6px;">${region}</h4>
+    <table class="datatable" style="margin-bottom:14px;">
+      <tr><th>Unit</th><th>Category</th></tr>
+      ${units.map(u => `<tr><td>${u.name}</td><td>${u.category}</td></tr>`).join('')}
+    </table>`).join('');
+  populateEntryForm();
+}
+
+async function addUnit(){
+  const name = document.getElementById('new-unit-name').value.trim();
+  const region = document.getElementById('new-unit-region').value.trim();
+  const category = document.getElementById('new-unit-category').value;
+  const msg = document.getElementById('unit-msg');
+  if (!name || !region) { msg.textContent = 'Name and region are required.'; msg.style.color = 'var(--red)'; return; }
+  try {
+    await api('/api/units', {method:'POST', body: JSON.stringify({name, region, category})});
+    document.getElementById('new-unit-name').value = ''; document.getElementById('new-unit-region').value = '';
+    msg.textContent = 'Unit added.'; msg.style.color = 'var(--green)';
+    await loadUnitsAdmin();
+  } catch(e){ msg.textContent = e.message; msg.style.color = 'var(--red)'; }
+}
+
+function toggleUserUnitField(){
+  document.getElementById('new-user-unit-wrap').classList.toggle('hidden', document.getElementById('new-user-role').value === 'admin');
+}
+
+async function loadUsersAdmin(){
+  document.getElementById('new-user-unit').innerHTML = STATE.units.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+  const rows = await api('/api/users');
+  const table = document.getElementById('users-table');
+  table.innerHTML = '<tr><th>Name</th><th>Username</th><th>Role</th><th>Unit</th></tr>' +
+    rows.map(r => `<tr><td>${r.name}</td><td>${r.username}</td><td>${r.role === 'admin' ? 'Bidvest Admin' : 'Site'}</td><td>${r.unit_name||'—'}</td></tr>`).join('');
+}
+
+async function addUser(){
+  const payload = {
+    name: document.getElementById('new-user-name').value.trim(),
+    username: document.getElementById('new-user-username').value.trim(),
+    password: document.getElementById('new-user-password').value,
+    role: document.getElementById('new-user-role').value,
+    unit_id: parseInt(document.getElementById('new-user-unit').value) || null,
+  };
+  const msg = document.getElementById('user-msg');
+  try {
+    await api('/api/users', {method:'POST', body: JSON.stringify(payload)});
+    msg.textContent = 'User added.'; msg.style.color = 'var(--green)';
+    document.getElementById('new-user-name').value = ''; document.getElementById('new-user-username').value = ''; document.getElementById('new-user-password').value = '';
+    await loadUsersAdmin();
+  } catch(e){ msg.textContent = e.message; msg.style.color = 'var(--red)'; }
+}
+
+async function loadAlerts(){
+  const alerts = await api('/api/alerts');
+  const container = document.getElementById('alerts-list');
+  if (!alerts.length) { container.innerHTML = '<p style="color:#146c38;">No overdue data points right now.</p>'; return; }
+  container.innerHTML = alerts.map(a => `
+    <div class="alert-row">
+      <span><b>${a.unit_name}</b> (${a.category}) — ${a.item_id} ${a.data_point}</span>
+      <span class="meta">${a.pillar} · ${a.frequency} · ${a.days_into_period}d into period · ${a.status}</span>
+    </div>`).join('');
+}
+
+function loadReportUnits(){
+  document.getElementById('report-unit').innerHTML = '<option value="">All units</option>' +
+    STATE.units.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+}
+
+function downloadReport(fmt){
+  const scope = document.getElementById('report-scope').value;
+  const unitId = document.getElementById('report-unit').value;
+  let url = `/api/reports/${fmt}?scope=${encodeURIComponent(scope)}`;
+  if (unitId) url += `&unit_id=${unitId}`;
+  window.open(url, '_blank');
+}
+
+(async function init(){
+  try {
+    const s = await api('/api/session');
+    if (s.loggedIn) { STATE.role = s.role; STATE.name = s.name; STATE.unit = s.unit; await boot(); }
+    else showLogin();
+  } catch(e){ showLogin(); }
+})();
+</script>
+</body>
+</html>
