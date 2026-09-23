@@ -1,0 +1,132 @@
+[
+  {
+    "id": "E17",
+    "pillar": "Environmental",
+    "category": "Waste & food waste",
+    "data_point": "Total food waste by stage: preparation / spoilage, production surplus, plate waste",
+    "unit": "kg",
+    "frequency": "Monthly",
+    "typical_source": "Kitchen waste weigh log or waste-tracking tool",
+    "framework_ref": "GRI 306-3"
+  },
+  {
+    "id": "E18",
+    "pillar": "Environmental",
+    "category": "Waste & food waste",
+    "data_point": "Food waste intensity",
+    "unit": "kg per meal served",
+    "frequency": "Monthly",
+    "typical_source": "Waste log divided by meal counts",
+    "framework_ref": "GRI 306-3 (internal KPI)"
+  },
+  {
+    "id": "E19",
+    "pillar": "Environmental",
+    "category": "Waste & food waste",
+    "data_point": "Food waste diverted from landfill (composting, digestion, animal feed)",
+    "unit": "kg, % of food waste",
+    "frequency": "Monthly",
+    "typical_source": "Collector weighbridge slips, diversion certificates",
+    "framework_ref": "GRI 306-4"
+  },
+  {
+    "id": "E20",
+    "pillar": "Environmental",
+    "category": "Waste & food waste",
+    "data_point": "Surplus food donated to food banks / feeding schemes",
+    "unit": "kg, meals",
+    "frequency": "Monthly",
+    "typical_source": "Donation receipts, beneficiary confirmations",
+    "framework_ref": "GRI 306-4; GRI 413-1"
+  },
+  {
+    "id": "E21",
+    "pillar": "Environmental",
+    "category": "Waste & food waste",
+    "data_point": "General waste sent to landfill",
+    "unit": "kg",
+    "frequency": "Monthly",
+    "typical_source": "Waste contractor reports and weighbridge slips",
+    "framework_ref": "GRI 306-5"
+  },
+  {
+    "id": "E22",
+    "pillar": "Environmental",
+    "category": "Waste & food waste",
+    "data_point": "Recycled waste by stream (cardboard, glass, plastic, cans) and overall recycling rate",
+    "unit": "kg, %",
+    "frequency": "Monthly",
+    "typical_source": "Recycler reports",
+    "framework_ref": "GRI 306-4"
+  },
+  {
+    "id": "E23",
+    "pillar": "Environmental",
+    "category": "Waste & food waste",
+    "data_point": "Used cooking oil collected and recycled",
+    "unit": "litres",
+    "frequency": "Monthly",
+    "typical_source": "Collector manifests, recycler certificates",
+    "framework_ref": "GRI 306-4"
+  },
+  {
+    "id": "E24",
+    "pillar": "Environmental",
+    "category": "Waste & food waste",
+    "data_point": "Hazardous waste (e.g. chemical containers) and safe-disposal certificates",
+    "unit": "kg, certificates on file",
+    "frequency": "Quarterly",
+    "typical_source": "Licensed contractor disposal certificates",
+    "framework_ref": "GRI 306-3; NEM:WA"
+  },
+  {
+    "id": "E25",
+    "pillar": "Environmental",
+    "category": "Packaging & sourcing",
+    "data_point": "Single-use packaging purchased by material, and share recyclable / compostable / reusable",
+    "unit": "kg or units, %",
+    "frequency": "Quarterly",
+    "typical_source": "Procurement data, supplier specifications",
+    "framework_ref": "GRI 301-1; IFRS S1"
+  },
+  {
+    "id": "E26",
+    "pillar": "Environmental",
+    "category": "Packaging & sourcing",
+    "data_point": "Packaging EPR status (registration with a producer responsibility organisation, if applicable)",
+    "unit": "status, date",
+    "frequency": "Annual",
+    "typical_source": "PRO membership, compliance correspondence",
+    "framework_ref": "NEM:WA EPR regulations"
+  },
+  {
+    "id": "E27",
+    "pillar": "Environmental",
+    "category": "Packaging & sourcing",
+    "data_point": "Food spend sourced from South African suppliers",
+    "unit": "% of food spend",
+    "frequency": "Quarterly",
+    "typical_source": "Procurement / ERP purchase data",
+    "framework_ref": "GRI 204-1"
+  },
+  {
+    "id": "E28",
+    "pillar": "Environmental",
+    "category": "Packaging & sourcing",
+    "data_point": "Key commodities from certified or sustainable sources (seafood, eggs, palm oil, coffee, etc.)",
+    "unit": "% by commodity",
+    "frequency": "Annual",
+    "typical_source": "Supplier certificates and specifications",
+    "framework_ref": "GRI 308-1; IFRS S1"
+  },
+  {
+    "id": "E29",
+    "pillar": "Environmental",
+    "category": "Packaging & sourcing",
+    "data_point": "Plant-forward meals as a share of meals served",
+    "unit": "% of meals",
+    "frequency": "Quarterly",
+    "typical_source": "Menu and POS / meal-count data",
+    "framework_ref": "Internal KPI (Scope 3 lever)"
+  }
+]

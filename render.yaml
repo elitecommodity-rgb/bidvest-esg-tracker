@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: bidvest-food-waste-esg
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: "2"
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+    disk:
+      name: bidvest-food-waste-esg-data
+      mountPath: /app/data
+      sizeGB: 1
